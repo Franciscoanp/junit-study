@@ -39,7 +39,7 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void testeLocacao() throws Exception {
+	public void deveAlugarFilme() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("usuario 1");
 		List<Filme> filmes = Arrays.asList(new Filme("filme 1", 2, 5.0));
@@ -64,17 +64,17 @@ public class LocacaoServiceTest {
 		// acao
 		Locacao locacao = service.alugarFilme(usuario, filme);
 
-		Assert.assertNotNull("Data de locação não pode ser null", locacao.getDataLocacao());
-		Assert.assertNotNull("Data de retorno não pode ser null", locacao.getDataRetorno());
-		Assert.assertTrue("Data de locação deve ser antes da data de retorno", locacao.getDataLocacao().before(locacao.getDataRetorno()));
+		Assert.assertNotNull("Data de locaï¿½ï¿½o nï¿½o pode ser null", locacao.getDataLocacao());
+		Assert.assertNotNull("Data de retorno nï¿½o pode ser null", locacao.getDataRetorno());
+		Assert.assertTrue("Data de locaï¿½ï¿½o deve ser antes da data de retorno", locacao.getDataLocacao().before(locacao.getDataRetorno()));
 		
 	}*/
 	
-	// essa forma é mais elegante de usar, porem é mais utlizada quando 
-	// apenas a exceção é necessaria para o teste
+	// essa forma ï¿½ mais elegante de usar, porem ï¿½ mais utlizada quando 
+	// apenas a exceï¿½ï¿½o ï¿½ necessaria para o teste
 	
 	@Test(expected = FilmeSemEstoqueException.class)
-	public void testeLocacao_filmeSemEstoque() throws Exception {
+	public void deveLancarExcecaoAoAlugarFilmeSemEstoque() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("usuario 1");
 		List<Filme> filmes = Arrays.asList(new Filme("filme 1", 0, 4.0));
@@ -84,11 +84,11 @@ public class LocacaoServiceTest {
 	}
 
 	
-	/* Se precisar da exceção e da mensagem, essa forma
-	 * é a mais adequada
+	/* Se precisar da exceï¿½ï¿½o e da mensagem, essa forma
+	 * ï¿½ a mais adequada
 	 * */
 	@Test
-	public void testeLocacao_usuarioVazio() throws FilmeSemEstoqueException {
+	public void naoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException {
 		// cenario
 		List<Filme> filmes = Arrays.asList(new Filme("filme 1", 2, 5.0));
 
@@ -105,10 +105,10 @@ public class LocacaoServiceTest {
 	}
 
 	/* essa atende grande maioria dos casos, porem a forma robusta 
-	 * é mais especifica para alguns casos
+	 * ï¿½ mais especifica para alguns casos
 	 */
 	@Test
-	public void testLocacao_FilmeVazio() throws FilmeSemEstoqueException, LocadoraException {
+	public void naoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException {
 		// cenario
 		Usuario usuario = new Usuario("usuario 1");
 
@@ -121,21 +121,68 @@ public class LocacaoServiceTest {
 		//System.out.println("forma nova");
 	}
 
+	@Test
+	public void devePagar75PorCentroNoFilme3() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("usuario 1");
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0),
+											new Filme("Filme 2", 2, 4.0),
+											new Filme("Filme 3", 2, 4.0));
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+
+		//verificacao
+		assertThat(resultado.getValor(), is(11.0));
+
+	}
+
+	@Test
+	public void devePagar50PorCentroNoFilme4() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("usuario 1");
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0),
+				new Filme("Filme 2", 2, 4.0),
+				new Filme("Filme 3", 2, 4.0),
+				new Filme("Filme 4", 2, 4.0));
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+
+		//verificacao
+		assertThat(resultado.getValor(), is(13.0));
+
+	}
+
+	@Test
+	public void devePagar25PorCentroNoFilme5() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("usuario 1");
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0),
+				new Filme("Filme 2", 2, 4.0),
+				new Filme("Filme 3", 2, 4.0),
+				new Filme("Filme 4", 2, 4.0),
+				new Filme("Filme 5", 2, 4.0));
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+
+		//verificacao
+		assertThat(resultado.getValor(), is(14.0));
+
+	}
 	/*
 	 * @Test public void testeLocacao_filmeSemEstoque_2() { // cenario
 	 * LocacaoService service = new LocacaoService(); Usuario usuario = new
 	 * Usuario("usuario 1"); Filme filme = new Filme("filme 1", 0, 5.0);
 	 * 
 	 * // acao try { service.alugarFilme(usuario, filme);
-	 * fail("deve lançar uma exceção"); } catch (Exception e) {
+	 * fail("deve lanï¿½ar uma exceï¿½ï¿½o"); } catch (Exception e) {
 	 * assertThat(e.getMessage(), is("filme sem estoque")); } }
 	 * 
 	 * @Test public void testeLocacao_filmeSemEstoque_3() throws Exception { //
 	 * cenario LocacaoService service = new LocacaoService(); Usuario usuario = new
 	 * Usuario("usuario 1"); Filme filme = new Filme("filme 1", 0, 5.0);
 	 * 
-	 * //deve ser declarada antes da ação, pois estamos esperando essas ações. //Se
-	 * executada depois, o service lanca a exceção // e essas assertivas nao são
+	 * //deve ser declarada antes da aï¿½ï¿½o, pois estamos esperando essas aï¿½ï¿½es. //Se
+	 * executada depois, o service lanca a exceï¿½ï¿½o // e essas assertivas nao sï¿½o
 	 * executadas
 	 * 
 	 * exception.expect(Exception.class);
