@@ -1,4 +1,4 @@
-package br.ce.wcaquino.entidades;
+package br.ce.study.entidades;
 
 public class Usuario {
 
