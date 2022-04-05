@@ -1,4 +1,4 @@
-package br.ce.wcaquino.exceptions;
+package br.ce.study.exceptions;
 
 public class FilmeSemEstoqueException extends Exception {
 

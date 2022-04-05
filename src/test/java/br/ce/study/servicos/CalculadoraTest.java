@@ -1,6 +1,6 @@
-package br.ce.wcaquino.servicos;
+package br.ce.study.servicos;
 
-import br.ce.wcaquino.exceptions.NaoPodeDividirPorZeroException;
+import br.ce.study.exceptions.NaoPodeDividirPorZeroException;
 import org.junit.Before;
 import org.junit.Test;
 

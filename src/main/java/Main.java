@@ -10,7 +10,7 @@ public class Main {
 
 		Venda novaVenda = new Venda(atendente, 200.0);
 
-		System.out.println("valor da comiss„o: " + novaVenda.calculaComissao());
+		System.out.println("valor da comiss√£o: " + novaVenda.calculaComissao());
 
 	}
 }

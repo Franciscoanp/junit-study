@@ -1,7 +1,7 @@
-package br.ce.wcaquino.servicos;
+package br.ce.study.servicos;
 
-import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
-import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
+import static br.ce.study.utils.DataUtils.isMesmaData;
+import static br.ce.study.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -17,11 +17,11 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
-import br.ce.wcaquino.entidades.Filme;
-import br.ce.wcaquino.entidades.Locacao;
-import br.ce.wcaquino.entidades.Usuario;
-import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
-import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.study.entidades.Filme;
+import br.ce.study.entidades.Locacao;
+import br.ce.study.entidades.Usuario;
+import br.ce.study.exceptions.FilmeSemEstoqueException;
+import br.ce.study.exceptions.LocadoraException;
 
 public class LocacaoServiceTest {
 
@@ -157,10 +157,27 @@ public class LocacaoServiceTest {
 		//cenario
 		Usuario usuario = new Usuario("usuario 1");
 		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0),
-				new Filme("Filme 2", 2, 4.0),
-				new Filme("Filme 3", 2, 4.0),
-				new Filme("Filme 4", 2, 4.0),
-				new Filme("Filme 5", 2, 4.0));
+											new Filme("Filme 2", 2, 4.0),
+											new Filme("Filme 3", 2, 4.0),
+											new Filme("Filme 4", 2, 4.0),
+											new Filme("Filme 5", 2, 4.0));
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+
+		//verificacao
+		assertThat(resultado.getValor(), is(14.0));
+
+	}
+	@Test
+	public void devePagar0PorCentroNoFilme6() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("usuario 1");
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0),
+											new Filme("Filme 2", 2, 4.0),
+											new Filme("Filme 3", 2, 4.0),
+											new Filme("Filme 4", 2, 4.0),
+											new Filme("Filme 5", 2, 4.0),
+											new Filme("Filme 6", 2, 4.0));
 		//acao
 		Locacao resultado = service.alugarFilme(usuario, filmes);
 
