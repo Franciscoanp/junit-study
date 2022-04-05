@@ -42,7 +42,7 @@ public class LocacaoServiceTest {
 	public void deveAlugarFilme() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("usuario 1");
-		List<Filme> filmes = Arrays.asList(new Filme("filme 1", 2, 5.0));
+		List<Filme> filmes = List.of(new Filme("filme 1", 2, 5.0));
 		
 		// acao
 		Locacao locacao = service.alugarFilme(usuario, filmes);
