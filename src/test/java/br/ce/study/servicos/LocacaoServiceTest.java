@@ -4,13 +4,15 @@ import static br.ce.study.utils.DataUtils.isMesmaData;
 import static br.ce.study.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import br.ce.study.utils.DataUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,6 +54,27 @@ public class LocacaoServiceTest {
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 
+	}
+
+	@Test
+	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("usuario 1");
+		List<Filme> filmes = List.of(new Filme("filme 1", 1, 5.0));
+
+		//acao
+		Locacao retorno = service.alugarFilme(usuario, filmes);
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, 2022);
+		c.set(Calendar.MONTH, Calendar.APRIL);
+		c.set(Calendar.DAY_OF_MONTH, 9);
+
+		retorno.setDataRetorno(c.getTime());
+
+		//verificacao
+		boolean ehSegunda = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
+
+		assertTrue(ehSegunda);
 	}
 
 	/*@Test
