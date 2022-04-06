@@ -13,9 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.ce.study.utils.DataUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
@@ -42,6 +40,8 @@ public class LocacaoServiceTest {
 	
 	@Test
 	public void deveAlugarFilme() throws Exception {
+		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+
 		// cenario
 		Usuario usuario = new Usuario("usuario 1");
 		List<Filme> filmes = List.of(new Filme("filme 1", 2, 5.0));
@@ -58,18 +58,15 @@ public class LocacaoServiceTest {
 
 	@Test
 	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException {
+		//se o dia da semana nao for sabado, o junit pula o teste
+		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+
 		//cenario
 		Usuario usuario = new Usuario("usuario 1");
 		List<Filme> filmes = List.of(new Filme("filme 1", 1, 5.0));
 
 		//acao
 		Locacao retorno = service.alugarFilme(usuario, filmes);
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.YEAR, 2022);
-		c.set(Calendar.MONTH, Calendar.APRIL);
-		c.set(Calendar.DAY_OF_MONTH, 9);
-
-		retorno.setDataRetorno(c.getTime());
 
 		//verificacao
 		boolean ehSegunda = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
